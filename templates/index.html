@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignSpeak — Live Sign Language Interpreter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-theme="dark">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <path d="M6 15c0-5 3-9 7-9s7 4 7 9-3 6-7 6-7-1-7-6Z" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M9 12v-3M13 11v-4M17 12v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">SignSpeak</span>
+    </div>
+    <p class="brand-tagline">Turns hand gestures into spoken words, in real time</p>
+    <button id="themeToggle" class="theme-toggle" aria-label="Switch between light and dark mode">
+      <span class="toggle-icon">◐</span> <span id="themeLabel">Dark</span>
+    </button>
+  </header>
+
+  <main class="layout">
+
+    <!-- LEFT: Webcam -->
+    <section class="camera-panel" aria-label="Live camera feed">
+      <div class="camera-frame">
+        <img id="videoFeed" alt="Live webcam feed with hand landmark overlay" />
+        <div id="cameraOverlayText" class="camera-overlay">
+          <p>Camera is off</p>
+          <span>Press "Start Camera" to begin signing</span>
+        </div>
+        <div class="hands-badge" id="handsBadge" hidden>0 hands detected</div>
+      </div>
+
+      <div class="camera-controls">
+        <button id="startBtn" class="btn btn-primary">Start Camera</button>
+        <button id="stopBtn" class="btn btn-ghost" disabled>Stop Camera</button>
+      </div>
+
+      <p id="statusLine" class="status-line">Camera stopped</p>
+    </section>
+
+    <!-- RIGHT: Panel -->
+    <section class="side-panel" aria-label="Translation panel">
+
+      <div class="card">
+        <h2 class="card-label">Detected gesture</h2>
+        <div class="gesture-readout">
+          <span id="gestureName">—</span>
+          <span id="confidenceValue" class="confidence-pill">0%</span>
+        </div>
+        <div class="confidence-track">
+          <div id="confidenceBar" class="confidence-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="card sentence-card">
+        <h2 class="card-label">Formed sentence</h2>
+        <p id="sentenceText" class="sentence-text" aria-live="polite">Start signing to build a sentence…</p>
+
+        <div class="action-row">
+          <button id="speakBtn" class="btn btn-primary">🔊 Speak</button>
+          <button id="pauseBtn" class="btn btn-ghost">⏸ Pause</button>
+          <button id="clearBtn" class="btn btn-ghost">✕ Clear</button>
+          <button id="backspaceBtn" class="btn btn-ghost">⌫ Undo word</button>
+          <button id="saveBtn" class="btn btn-ghost">💾 Save</button>
+        </div>
+
+        <div class="voice-controls">
+          <label for="voiceSelect">Voice</label>
+          <select id="voiceSelect"></select>
+
+          <label for="rateRange">Speed</label>
+          <input type="range" id="rateRange" min="80" max="260" value="160">
+          <span id="rateValue">160</span>
+        </div>
+      </div>
+
+      <div class="card history-card">
+        <h2 class="card-label">History</h2>
+        <ul id="historyList" class="history-list">
+          <li class="history-empty">No saved sentences yet.</li>
+        </ul>
+      </div>
+
+      <details class="card gestures-card">
+        <summary class="card-label">Supported gestures</summary>
+        <div class="gesture-chip-grid">
+          <span class="chip">Hello</span><span class="chip">Yes</span><span class="chip">No</span>
+          <span class="chip">Thank you</span><span class="chip">Help</span><span class="chip">I love you</span>
+          <span class="chip">A–Z</span><span class="chip">0–9</span>
+        </div>
+      </details>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    Built for accessible, assistive communication · Works fully offline once loaded
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

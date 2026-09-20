@@ -1,0 +1,328 @@
+/* ---------------------------------------------------------------------
+   SignSpeak — design tokens
+   Palette: deep teal base, sunflower-gold accent (chosen for high
+   contrast/accessibility rather than a generic SaaS look), calm neutrals.
+--------------------------------------------------------------------- */
+:root {
+  --teal-950: #06201d;
+  --teal-900: #0b2e2a;
+  --teal-800: #123f39;
+  --teal-700: #1c5951;
+  --gold-500: #f2b545;
+  --gold-600: #d99a2b;
+  --cream-100: #f6f2e9;
+  --ink-900: #0b1310;
+  --white: #ffffff;
+  --danger: #e2665a;
+  --ok: #5fb98a;
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: var(--teal-950);
+  --surface: var(--teal-900);
+  --surface-raised: var(--teal-800);
+  --text-primary: #f3f6f4;
+  --text-secondary: #a9c2bb;
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: var(--gold-500);
+  --accent-contrast: var(--ink-900);
+}
+
+[data-theme="light"] {
+  --bg: var(--cream-100);
+  --surface: var(--white);
+  --surface-raised: #eef2ee;
+  --text-primary: var(--ink-900);
+  --text-secondary: #4a5a55;
+  --border: rgba(11, 19, 16, 0.1);
+  --accent: var(--teal-700);
+  --accent-contrast: var(--white);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body:focus-within :focus-visible,
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---------------- Topbar ---------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; color: var(--accent); }
+.brand-mark { display: inline-flex; }
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.brand-tagline {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+  flex: 1;
+}
+
+.theme-toggle {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.theme-toggle:hover { border-color: var(--accent); }
+
+/* ---------------- Layout ---------------- */
+.layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  padding: 24px 32px 8px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ---------------- Camera panel ---------------- */
+.camera-panel { display: flex; flex-direction: column; gap: 12px; }
+
+.camera-frame {
+  position: relative;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--border);
+}
+
+.camera-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #d7e4de;
+  background: radial-gradient(circle at center, rgba(18,63,57,0.9), rgba(6,32,29,0.98));
+  text-align: center;
+}
+.camera-overlay p { font-family: var(--font-display); font-size: 20px; margin: 0 0 4px; }
+.camera-overlay span { font-size: 14px; color: var(--text-secondary); }
+
+.hands-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.camera-controls { display: flex; gap: 12px; }
+
+.status-line {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  min-height: 44px;
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+.btn-ghost:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+/* ---------------- Side panel / cards ---------------- */
+.side-panel { display: flex; flex-direction: column; gap: 16px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.card-label {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+}
+
+.gesture-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+#gestureName {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.confidence-pill {
+  background: var(--surface-raised);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.confidence-track {
+  margin-top: 14px;
+  height: 8px;
+  background: var(--surface-raised);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.confidence-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.sentence-text {
+  min-height: 64px;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.voice-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.voice-controls select {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+}
+.voice-controls input[type="range"] { accent-color: var(--accent); }
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.history-list li {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.history-list time {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+}
+.history-empty { color: var(--text-secondary); border-style: dashed; }
+
+.gestures-card summary { cursor: pointer; }
+.gesture-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.chip {
+  background: var(--surface-raised);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.footer {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  padding: 24px;
+}
